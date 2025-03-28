@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Poll struct {
 	ID          uint64

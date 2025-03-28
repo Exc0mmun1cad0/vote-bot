@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Vote struct {
 	PollID   uint64
