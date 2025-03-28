@@ -21,12 +21,31 @@ func NewRepo(conn *tarantool.Connection) *Repo {
 	return &Repo{conn: conn}
 }
 
-// GetPoll retursn info about poll by its ID
+func (r *Repo) createPoll(poll entity.Poll) (*entity.Poll, error) {
+	const op = "repo.tarantool.createPoll"
+
+	// Plural form because tarantool query returns slice of tuples
+	// but only the first one is needed.
+	var newPolls []entity.Poll
+
+	tuple := []any{nil, poll.Name, poll.Creator, poll.Channel, nil, poll.IsMultiVote}
+	err := r.conn.Do(
+		tarantool.NewInsertRequest(pollSpace).
+			Tuple(tuple),
+	).GetTyped(&newPolls)
+	if err != nil {
+		return nil, fmt.Errorf("%s: failed to insert poll: %w", op, err)
+	}
+
+	return &newPolls[0], nil
+}
+
+// GetPoll retursn info about poll by its ID.
 func (r *Repo) GetPoll(pollID uint64) (*entity.Poll, error) {
 	const op = "repo.tarantool.GetPoll"
 
 	// Plural form because tarantool query returns slice of tuples
-	// but only the first one is needed
+	// but only the first one is needed.
 	var polls []entity.Poll
 
 	err := r.conn.Do(
@@ -44,7 +63,6 @@ func (r *Repo) GetPoll(pollID uint64) (*entity.Poll, error) {
 }
 
 // FinishPoll sets field is_finished to true.
-// If it's already true, err.PollIsAlreadyFinished will be returned.
 func (r *Repo) FinishPoll(pollID uint64) error {
 	const op = "repo.tarantool.FinishPoll"
 
