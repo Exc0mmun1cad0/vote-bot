@@ -42,3 +42,20 @@ func (r *Repo) GetPoll(pollID uint64) (*entity.Poll, error) {
 
 	return &polls[0], nil
 }
+
+// FinishPoll sets field is_finished to true.
+// If it's already true, err.PollIsAlreadyFinished will be returned.
+func (r *Repo) FinishPoll(pollID uint64) error {
+	const op = "repo.tarantool.FinishPoll"
+
+	_, err := r.conn.Do(
+		tarantool.NewUpdateRequest(pollSpace).
+			Key(tarantool.UintKey{I: uint(pollID)}).
+			Operations(tarantool.NewOperations().Assign(4, true)),
+	).Get()
+	if err != nil {
+		return fmt.Errorf("%s: failed to finish poll: %w", op, err)
+	}
+
+	return nil
+}
