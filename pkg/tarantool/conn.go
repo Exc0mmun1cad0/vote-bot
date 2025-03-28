@@ -3,7 +3,6 @@ package tarantool
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 	"vote-bot/internal/config"
 
@@ -37,10 +36,12 @@ func NewConn(cfg config.Tarantool) (*tarantool.Connection, error) {
 	return conn, nil
 }
 
-func MustCloseConn(conn *tarantool.Connection) {
+func CloseConn(conn *tarantool.Connection) error {
 	const op = "pkg.tarantool.MustClose"
 
 	if err := conn.CloseGraceful(); err != nil {
-		log.Fatalf("%s: failed to close connection to tarantool db: %w", op, err)
+		return fmt.Errorf("%s: failed to close tarantool connection: %w", op, err)
 	}
+
+	return nil
 }
