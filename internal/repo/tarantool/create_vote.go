@@ -16,7 +16,7 @@ const (
 //
 // In case user votes second time, his vote will simply be updated.
 func (r *Repo) CreateVote(vote entity.Vote) (*entity.Vote, error) {
-	const op = "tarantool.VoteRepo.CreateVote"
+	const op = "repo.tarantool.CreateVote"
 
 	data, err := r.conn.Do(
 		tarantool.NewCall17Request(createVoteFunc).
