@@ -13,9 +13,9 @@ const (
 // Delete vote removes record from space "votes".
 // It is called in order to retract vote.
 //
-// Boolean return val indicates whether vote was deleted or not.
-// (false, nil) indicates that user hasn't voted.
-func (r *Repo) DeleteVote(user string, pollID uint64) (bool, error) {
+// isDeleted indicates whether vote was deleted or not.
+// (false, nil) indicates that user hasn't voted before.
+func (r *Repo) DeleteVote(user string, pollID uint64) (isDeleted bool, err error) {
 	const op = "repo.tarantool.DeleteVote"
 
 	data, err := r.conn.Do(
