@@ -12,11 +12,11 @@ const (
 )
 
 // DeletePoll deletes the whole information about poll from spaces: votes, options, polls.
-// It uses lua-defined functions delete_votes() and delete_options().
+// It uses lua-defined functions delete_votes() and delete_options() under the hood.
 func (r *Repo) DeletePoll(pollID uint64) error {
 	const op = "repo.tarantool.DeletePoll"
 
-	// Create new stream for atomicity.
+	// Starts stream.
 	stream, err := r.conn.NewStream()
 	if err != nil {
 		return fmt.Errorf("%s: failed to init stream for txn: %w", op, err)
@@ -70,7 +70,7 @@ func (r *Repo) DeletePoll(pollID uint64) error {
 		return fmt.Errorf("%s: failed to delete poll: %w", op, err)
 	}
 
-	// Commit txn.
+	// Close stream (commit txn).
 	_, err = stream.Do(
 		tarantool.NewCommitRequest(),
 	).Get()
