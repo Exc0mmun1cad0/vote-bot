@@ -13,13 +13,13 @@ import (
 func (r *Repo) CreatePollWithOptions(poll entity.Poll, options []entity.Option) (*entity.Poll, []entity.Option, error) {
 	const op = "repo.tarantool.CreatePollWithOprions"
 
-	// Create new stream for atomicity
+	// Create new stream for atomicity.
 	stream, err := r.conn.NewStream()
 	if err != nil {
 		return nil, nil, fmt.Errorf("%s: failed to init stream for txn: %w", op, err)
 	}
 
-	// Create poll within stream
+	// Create poll within stream.
 	newPoll, err := createPoll(stream, poll)
 	if err != nil {
 		_, er := stream.Do(
@@ -32,13 +32,13 @@ func (r *Repo) CreatePollWithOptions(poll entity.Poll, options []entity.Option) 
 		return nil, nil, fmt.Errorf("%s: failed to create poll: %w", op, err)
 	}
 
-	// Set PollID in options
+	// Set PollID in options.
 	newPollID := newPoll.ID
 	for i := range options {
 		options[i].PollID = newPollID
 	}
 
-	// Create options within stream
+	// Create options within stream.
 	newOptions, err := createOptions(stream, options)
 	if err != nil {
 		_, er := stream.Do(
@@ -61,6 +61,7 @@ func (r *Repo) CreatePollWithOptions(poll entity.Poll, options []entity.Option) 
 	return newPoll, newOptions, nil
 }
 
+// createPoll inserts a new poll to pollSpace inside of stream (txn).
 func createPoll(s *tarantool.Stream, poll entity.Poll) (*entity.Poll, error) {
 	const op = "repo.tarantool.createPoll"
 
@@ -80,6 +81,7 @@ func createPoll(s *tarantool.Stream, poll entity.Poll) (*entity.Poll, error) {
 	return &newPolls[0], nil
 }
 
+// createOptions inserts new options to optionSpace inside of stream (txn).
 func createOptions(s *tarantool.Stream, options []entity.Option) ([]entity.Option, error) {
 	const op = "repo.tarantool.createOptions"
 
