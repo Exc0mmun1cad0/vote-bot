@@ -3,6 +3,7 @@ package tarantool
 import (
 	"fmt"
 	"vote-bot/internal/entity"
+	"vote-bot/internal/repo"
 
 	"github.com/tarantool/go-tarantool/v2"
 )
@@ -23,6 +24,11 @@ func (r *Repo) GetVotes(pollID uint64) ([]entity.Vote, error) {
 	).Get()
 	if err != nil {
 		return nil, fmt.Errorf("%s: failed to get votes: %w", op, err)
+	}
+
+	votes := serializeVotes(data)
+	if len(votes) == 0 {
+		return nil, fmt.Errorf("%s: %w", op, repo.ErrNoVotes)
 	}
 
 	return serializeVotes(data), nil
