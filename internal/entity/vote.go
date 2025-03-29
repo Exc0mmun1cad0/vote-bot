@@ -1,7 +1,8 @@
 package entity
 
 type Vote struct {
-	PollID   uint64
-	OptionID uint64
-	User     string
+	VoteID    uint64
+	PollID    uint64
+	OptionIDs []uint64
+	User      string
 }
