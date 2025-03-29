@@ -87,7 +87,7 @@ func createOptions(s *tarantool.Stream, options []entity.Option) ([]entity.Optio
 
 	var futures []*tarantool.Future
 	for i, option := range options {
-		tuple := []any{nil, option.PollID, option.Name, i + 1}
+		tuple := []any{nil, int(option.PollID), option.Name, i + 1}
 		request := tarantool.NewInsertRequest(optionSpace).Tuple(tuple)
 		futures = append(futures, s.Do(request))
 	}
