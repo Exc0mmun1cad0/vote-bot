@@ -6,7 +6,7 @@ import (
 	"github.com/tarantool/go-tarantool/v2"
 )
 
-// FinishPoll sets field is_finished to true.
+// FinishPoll finishes the poll by setting is_finished field to true.
 func (r *Repo) FinishPoll(pollID uint64) error {
 	const op = "repo.tarantool.FinishPoll"
 
