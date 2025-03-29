@@ -51,6 +51,13 @@ func (r *Repo) CreatePollWithOptions(poll entity.Poll, options []entity.Option) 
 		return nil, nil, fmt.Errorf("%s: failed to create options: %w", op, err)
 	}
 
+	_, err = stream.Do(
+		tarantool.NewCommitRequest(),
+	).Get()
+	if err != nil {
+		return nil, nil, fmt.Errorf("%s: failed to commit txn: %w", op, err)
+	}
+
 	return newPoll, newOptions, nil
 }
 
