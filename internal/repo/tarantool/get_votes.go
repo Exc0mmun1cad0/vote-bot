@@ -30,9 +30,6 @@ func (r *Repo) GetVotes(pollID uint64) ([]entity.Vote, error) {
 
 // Converts tarantool response of type []any to slice []entity.Vote
 func serializeVotes(tuples []any) []entity.Vote {
-	const op = "repo.tarantool.serializeVotes"
-
-	fmt.Println(tuples, len(tuples))
 	votes := make([]entity.Vote, 0, len(tuples))
 
 	for _, el := range tuples {
