@@ -7,6 +7,7 @@ import (
 const (
 	pollSpace   = "polls"
 	optionSpace = "options"
+	voteSpace   = "votes"
 )
 
 // Repo wraps a Tarantool connection to abstract database interactions.
