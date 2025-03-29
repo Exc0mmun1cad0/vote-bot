@@ -28,14 +28,14 @@ func (r *Repo) GetVotes(pollID uint64) ([]entity.Vote, error) {
 	return serializeVotes(data), nil
 }
 
-// Converts tarantool response of type []any to slice []entity.Vote
+// Converts tarantool response of type []any to []entity.Vote.
 func serializeVotes(tuples []any) []entity.Vote {
 	votes := make([]entity.Vote, 0, len(tuples))
 
 	for _, el := range tuples {
 		tuple := el.([]any)
 
-		// convert option nums to uint64 slice
+		// convert option nums to uint64 slice.
 		optsAny := tuple[3].([]any)
 		opts := make([]uint64, 0, len(optsAny))
 		for _, optAny := range optsAny {
