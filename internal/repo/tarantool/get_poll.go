@@ -8,7 +8,7 @@ import (
 	"github.com/tarantool/go-tarantool/v2"
 )
 
-// GetPoll retursn info about poll by its ID.
+// GetPoll returns info about poll by its ID.
 func (r *Repo) GetPoll(pollID uint64) (*entity.Poll, error) {
 	const op = "repo.tarantool.GetPoll"
 
