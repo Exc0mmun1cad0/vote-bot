@@ -3,6 +3,8 @@ package main
 import (
 	"log/slog"
 	"os"
+	"os/signal"
+	"syscall"
 	"vote-bot/internal/bot"
 	"vote-bot/internal/config"
 	"vote-bot/pkg/sl"
@@ -36,6 +38,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	// TODO: graceful shutdown
-	bot.Client.ListenToEvents()
+	// Graceful shutdown
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
+
+	log.Info("starting bot...")
+	go bot.Client.ListenToEvents()
+
+	<-stop
+	log.Info("stopping app")
+
+	bot.Client.StopListening()
+	log.Info("bot doesn't listening for events anymore")
+
+	tarantool.CloseConn(conn)
+	log.Info("closed connection to tarantool")
+
+	log.Info("stopped bot")
+
 }
