@@ -26,7 +26,7 @@ func main() {
 	log.Info("initializing connection to tarantool...")
 	conn, err := tarantool.NewConn(cfg.Tarantool)
 	if err != nil {
-		log.Error("failed to connect to db(postgres)", sl.Error(err))
+		log.Error("failed to connect to tarantool", sl.Error(err))
 		os.Exit(1)
 	}
 	log.Info("connected to tarantool")
