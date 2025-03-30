@@ -8,21 +8,22 @@ import (
 )
 
 type Config struct {
+	Env        string `env:"ENV" env-required:"true"`
 	Tarantool  Tarantool
 	Mattermost Mattermost
 }
 
 type Tarantool struct {
 	Host     string `env:"TARANTOOL_HOST"`
-	Port     uint16 `env:"TARANTOOL_PORT"`
+	Port     uint16 `env:"TARANTOOL_PORT" env-default:"3301"`
 	User     string `env:"TARANTOOL_USER"`
 	Password string `env:"TARANTOOL_PASSWORD"`
 }
 
 type Mattermost struct {
-	Token  string `env:"MM_TOKEN"`
-	Server string `env:"MM_SERVER"`
-	Team   string `env:"MM_TEAM"`
+	Token  string `env:"MM_TOKEN" env-required:"true"`
+	Server string `env:"MM_SERVER" env-requried:"true"`
+	Team   string `env:"MM_TEAM" env-required:"true"`
 }
 
 func MustLoad() *Config {
