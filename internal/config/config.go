@@ -8,7 +8,8 @@ import (
 )
 
 type Config struct {
-	Tarantool Tarantool
+	Tarantool  Tarantool
+	Mattermost Mattermost
 }
 
 type Tarantool struct {
@@ -16,6 +17,12 @@ type Tarantool struct {
 	Port     uint16 `env:"TARANTOOL_PORT"`
 	User     string `env:"TARANTOOL_USER"`
 	Password string `env:"TARANTOOL_PASSWORD"`
+}
+
+type Mattermost struct {
+	Token  string `env:"MM_TOKEN"`
+	Server string `env:"MM_SERVER"`
+	Team   string `env:"MM_TEAM"`
 }
 
 func MustLoad() *Config {
