@@ -5,6 +5,18 @@
 Язык программирования: **Go**  
 База данных: **tarantool**
 
+### Настройка dev-окружения
+Для запуска бота необходим рабочий Mattermost-сервер с бд Postgres.  
+Также нужно поднять бд Tarantool, которую бот использует.  
+Следующие команды:
+```bash
+cd mattermost
+mkdir -p ./volumes/app/mattermost/{config,data,logs,plugins,client/plugins,bleve-indexes}
+sudo chown -R 2000:2000 ./volumes/app/mattermost
+docker compose up -d
+```
+поднимает локально сервер Mattermost по адресу `localhost:8065` и сервер Postgres
+
 ### Функционал
 #### 1. Создание голосования
 - Запрос:
