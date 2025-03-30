@@ -2,6 +2,8 @@ package config
 
 import (
 	"log"
+	"net/url"
+	"os"
 
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/joho/godotenv"
@@ -22,8 +24,8 @@ type Tarantool struct {
 
 type Mattermost struct {
 	Token  string `env:"MM_TOKEN" env-required:"true"`
-	Server string `env:"MM_SERVER" env-requried:"true"`
 	Team   string `env:"MM_TEAM" env-required:"true"`
+	Server *url.URL
 }
 
 func MustLoad() *Config {
@@ -37,6 +39,17 @@ func MustLoad() *Config {
 	if err := cleanenv.ReadEnv(&cfg); err != nil {
 		log.Fatalf("%s: failed to read config from env vars: %v", op, err)
 	}
+
+	server, err := url.Parse(os.Getenv("MM_SERVER"))
+	if err != nil {
+		log.Fatalf("%s: failed to parse mattermost server url: %w", op, err)
+	}
+
+	if server.String() == "" {
+		log.Fatalf("%s: empty matermost server url", op)
+	}
+
+	cfg.Mattermost.Server = server
 
 	return &cfg
 }
