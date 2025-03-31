@@ -36,8 +36,9 @@ mkdir -p ./volumes/app/mattermost/{config,data,logs,plugins,client/plugins,bleve
 sudo chown -R 2000:2000 ./volumes/app/mattermost
 docker compose up -d
 ```
-поднимают локально сервер **Mattermost** по адресу `localhost:8065` и сервер **Postgres**.
-
+поднимают локально сервер **Mattermost** по адресу `localhost:8065` и сервер **Postgres**.  
+> [!IMPORTANT]
+> Перед запуском бота В конфигурацию **Mattermost** по пути `config/config.json` добавить поле `"AllowCorsFrom": "*"`
 Для ***запуска самого бота***:
 ```
 make bot-up
