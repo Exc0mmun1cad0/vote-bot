@@ -47,7 +47,7 @@ go.work
 
 /.env
 
-/tarantool
+/tarantool/instances.enabled/bot/var
 
 
 # Mattermost ingore rules
