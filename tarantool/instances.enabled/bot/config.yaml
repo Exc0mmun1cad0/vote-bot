@@ -1,0 +1,24 @@
+credentials:
+  users:
+    sampleuser:
+      password: '123456'
+      privileges:
+      - permissions: [ read, write ]
+        spaces: [ polls, options, votes ]
+        sequences: [ poll_id, option_id, vote_id ]
+      - permissions: [ execute ]
+        universe: true
+        functions: [ delete_options, delete_votes, create_vote ]
+
+groups:
+  group001:
+    replicasets:
+      replicaset001:
+        instances:
+          instance001:
+            iproto:
+              listen:
+              - uri: '0.0.0.0:3301'
+
+app:
+  file: '/opt/tarantool/bot/init.lua'
