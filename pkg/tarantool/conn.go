@@ -12,18 +12,15 @@ import (
 func NewConn(cfg config.Tarantool) (*tarantool.Connection, error) {
 	const op = "pkg.tarantool.NewConn"
 
-	// TODO: maybe move time to config?
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	// TODO: should i add SSL?
 	dialer := tarantool.NetDialer{
 		Address:  fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
 		User:     cfg.User,
 		Password: cfg.Password,
 	}
 
-	// TODO: maybe move to config too?
 	opts := tarantool.Opts{
 		Timeout: time.Second,
 	}

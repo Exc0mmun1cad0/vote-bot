@@ -76,7 +76,7 @@ func (c *Client) ListenToEvents() {
 			&websocket.Dialer{
 				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 			},
-			fmt.Sprintf("wss://%s", c.config.Server.Host+c.config.Server.Path), //!!!!!!!!!!!!!!! AND IF WE DON'T HAVE SSL???????????????????????
+			fmt.Sprintf("ws://%s", c.config.Server.Host+c.config.Server.Path),
 			c.mattermostClient.AuthToken,
 		)
 		if err != nil {
