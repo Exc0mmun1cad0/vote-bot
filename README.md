@@ -1,6 +1,6 @@
 # Тестовое задание для стажировки в VK Tech на позиции Backend Developer
 
-## Чат-бот для голосования внутри чатов мэссенджера Mattermost
+## Чат-бот для голосования внутри чатов мессенджера Mattermost
 
 Язык программирования: **Go**  
 База данных: **tarantool**
@@ -13,7 +13,7 @@
 
 ### Настройка dev-окружения
 Для запуска бота необходим рабочий Mattermost-сервер с бд Postgres.  
-Также нужно поднять бд Tarantool, которую бот использует.  
+Также нужно поднять бд **Tarantool**, которую использует бот.  
 Следующие команды:
 ```bash
 cd mattermost
@@ -21,13 +21,13 @@ mkdir -p ./volumes/app/mattermost/{config,data,logs,plugins,client/plugins,bleve
 sudo chown -R 2000:2000 ./volumes/app/mattermost
 docker compose up -d
 ```
-поднимает локально сервер Mattermost по адресу `localhost:8065` и сервер Postgres  
+поднимают локально сервер **Mattermost** по адресу `localhost:8065` и сервер **Postgres**.
 
-Для ***запуска самого бота*** нужно использовать
+Для ***запуска самого бота***:
 ```
 make bot-up
 ```
-Данная команда с помощью `docker-compose.yml` собирает контейнер с приложение на ***Go*** и контейнер с бд ***Tarantool***
+Данная команда с помощью `docker-compose.yml` собирает контейнер с приложением на **Go** и контейнер с бд **Tarantool**.
 
 
 ### Функционал
