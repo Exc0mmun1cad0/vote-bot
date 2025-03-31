@@ -6,3 +6,9 @@ build:
 
 run:
 	@go run cmd/bot/main.go
+
+bot-up:
+	docker compose up -d
+
+bot-down:
+	docker compose down

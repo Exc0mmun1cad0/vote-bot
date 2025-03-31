@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  vote-bot:
+    container_name: vote_bot
+    build: .
+    env_file:
+      - .env
+    depends_on:
+      - tarantool
+    networks:
+      - backend
+    restart: unless-stopped
+
+  tarantool: 
+    container_name: tarantool
+    image: tarantool/tarantool
+    volumes:
+      - ./tarantool/instances.enabled:/opt/tarantool
+    environment:
+      - TT_APP_NAME=bot
+      - TT_INSTANCE_NAME=instance001
+      - TT_MEMTX_USE_MVCC_ENGINE=true
+    ports:
+      - "${TARANTOOL_PORT}:3301"
+    networks:
+      - backend
+    restart: unless-stopped
+
+
+networks:
+  backend:
+    driver: bridge
